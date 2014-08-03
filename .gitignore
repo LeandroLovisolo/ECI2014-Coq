@@ -91,3 +91,6 @@ sympy-plots-for-*.tex/
 # Sublime Text
 *.sublime-project
 *.sublime-workspace
+
+# Soluciones
+soluciones.pdf

@@ -228,25 +228,34 @@ Proof.
 Theorem mult_0_r : forall n:nat,
   n * 0 = 0.
 Proof.
-  (* FILL IN HERE *) Admitted.
-
+induction n as [|h].
+reflexivity.
+simpl.
+apply IHh.
+Qed.
 Theorem plus_n_Sm : forall n m : nat, 
   S (n + m) = n + (S m).
-Proof. 
-  (* FILL IN HERE *) Admitted.
-
+Proof.
+intros n m.
+induction n as [| h ].
+simpl.
+reflexivity.
+simpl.
+rewrite IHh.
+reflexivity. 
+Qed.
 
 Theorem plus_comm : forall n m : nat,
   n + m = m + n.
 Proof.
 intros n m.
-induction n as [|q].
+induction n as [|h].
 trivial.
 simpl.
   induction m as [|w].
-  rewrite IHq.
+  rewrite IHh.
   trivial.
-  rewrite -> IHq.
+  rewrite -> IHh.
   rewrite -> plus_n_Sm.
   simpl.
   reflexivity.
@@ -256,7 +265,13 @@ Qed.
 Theorem plus_assoc : forall n m p : nat,
   n + (m + p) = (n + m) + p.
 Proof.
-  (* FILL IN HERE *) Admitted.
+intros n m p.
+induction n as [|h].
+trivial.
+simpl.
+rewrite IHh.
+reflexivity.
+Qed.
 (** [] *)
 
 (** **** Exercise: 2 stars (double_plus) *)
@@ -380,6 +395,7 @@ Proof.
 (** **** Exercise: 4 stars (mult_comm) *)
 (** Use [assert] to help prove this theorem.  You shouldn't need to
     use induction. *)
+
 
 Theorem plus_swap : forall n m p : nat, 
   n + (m + p) = m + (n + p).

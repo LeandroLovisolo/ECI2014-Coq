@@ -1,0 +1,81 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-ucroman, es-noquoting]{babel}
+\usepackage{amsmath}
+
+\setcounter{secnumdepth}{-1}
+
+\begin{document}
+
+\title{ECI 2014\\
+       Demostración interactiva de teoremas:\\
+       teoría y práctica\\[0.5\baselineskip]
+       Evaluación final}
+\author{Manuel Ferrería\\
+        \texttt{mferreria@gmail.com}
+        \and
+        Leandro Lovisolo\\
+        \texttt{leandro@leandro.me}}
+\date{Agosto 2014}
+\maketitle
+
+\section{Enunciado}
+Demuestre (mediante un árbol de derivación) cuáles de los siguientes términos están bien tipados y qué tipo tienen (o justifique por qué no lo están.) Evalúe aquellos términos bien tipados paso a paso.
+
+\begin{enumerate}
+\item $(\lambda \alpha : \text{Type}\ .\
+        \lambda x : \alpha\ .\
+        \lambda y : \text{unit}\ .\
+        y)\
+       \text{tt}\ \text{unit}\ \text{tt}$
+\item $(\lambda \alpha : \text{Type}\ .\
+        \lambda x : \alpha\ .\
+        \lambda \beta : \text{Type}\ .\
+        \lambda y : \beta\ .\
+        y)\
+       \text{unit}\ \text{tt}\ \text{unit}\ \text{tt}$
+\item $(\lambda x : \text{unit}\ .\
+        \lambda \alpha : \text{Type}\ .\
+        \lambda y : \alpha\ .\
+        x)\
+       \text{tt}\ (\text{unit} \rightarrow \text{unit})\
+       (\lambda z : \text{unit}\ .\
+        z)$
+\end{enumerate}
+
+\section{Soluciones}
+
+\subsection{Ejercicio 1}
+
+$(\lambda \alpha : \text{Type}\ .\
+  \lambda x : \alpha\ .\
+  \lambda y : \text{unit}\ .\
+  y)\
+ \text{tt}\ \text{unit}\ \text{tt}$\\
+
+Pendiente.
+
+\subsection{Ejercicio 2}
+
+$(\lambda \alpha : \text{Type}\ .\
+  \lambda x : \alpha\ .\
+  \lambda \beta : \text{Type}\ .\
+  \lambda y : \beta\ .\
+  y)\
+ \text{unit}\ \text{tt}\ \text{unit}\ \text{tt}$\\
+
+Pendiente.
+
+\subsection{Ejercicio 3}
+
+$(\lambda x : \text{unit}\ .\
+  \lambda \alpha : \text{Type}\ .\
+  \lambda y : \alpha\ .\
+  x)\
+ \text{tt}\ (\text{unit} \rightarrow \text{unit})\
+ (\lambda z : \text{unit}\ .\
+  z)$\\
+
+Pendiente.
+
+\end{document}

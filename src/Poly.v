@@ -9,11 +9,6 @@
 
 Require Export Lists.   
 
-
-
-
-
-
 (* ###################################################### *)
 (** * Polymorphism *)
 (* ###################################################### *)
@@ -285,8 +280,17 @@ Definition list123' := cons _ 1 (cons _ 2 (cons _ 3 (nil _))).
     treated as implicit. 
     *)
 
+(* Coq 8.4
+Arguments nil {X}.
+Arguments cons {X} _ _.  (* marcar con [_] por cada argumento que no tiene nombre *)
+Arguments length {X} l.
+Arguments app {X} l1 l2.
+Arguments rev {X} l. 
+Arguments snoc {X} l v.
+*)
+(* Coq 8.3 *)
 Implicit Arguments nil [[X]].
-Implicit Arguments cons [[X]].  (* use underscore for argument position that has no name *)
+Implicit Arguments cons [[X]].
 Implicit Arguments length [[X]].
 Implicit Arguments app [[X]].
 Implicit Arguments rev [[X]]. 
@@ -351,9 +355,6 @@ Notation "x ++ y" := (app x y)
 (** Now lists can be written just the way we'd hope: *)
 
 Definition list123''' := [1; 2; 3].
-
-
-
 
 
 (* ###################################################### *)
@@ -520,8 +521,13 @@ Inductive option (X:Type) : Type :=
   | Some : X -> option X
   | None : option X.
 
+(* Coq 8.4
 Arguments Some {X} _. 
 Arguments None {X}. 
+*)
+(* Coq 8.3 *)
+Implicit Arguments Some [[X]]. 
+Implicit Arguments None [[X]]. 
 
 (** We can now rewrite the [index] function so that it works
     with any type of lists. *)
@@ -647,7 +653,7 @@ Definition prod_curry {X Y Z : Type}
 
 Definition prod_uncurry {X Y Z : Type}
   (f : X -> Y -> Z) (p : X * Y) : Z :=
-  (* FILL IN HERE *) admit.
+  f (fst p) (snd p).
 
 (** (Thought exercise: before running these commands, can you
     calculate the types of [prod_curry] and [prod_uncurry]?) *)
@@ -658,13 +664,23 @@ Check @prod_uncurry.
 Theorem uncurry_curry : forall (X Y Z : Type) (f : X -> Y -> Z) x y,
   prod_curry (prod_uncurry f) x y = f x y.
 Proof.
-  (* FILL IN HERE *) Admitted.
+intros X Y Z.
+intros f.
+intros x y.
+compute.
+trivial.
+Qed.
+
 
 Theorem curry_uncurry : forall (X Y Z : Type)
                                (f : (X * Y) -> Z) (p : X * Y),
   prod_uncurry (prod_curry f) p = f p.
 Proof.
-  (* FILL IN HERE *) Admitted.
+intros X Y Z.
+intros f p.
+destruct p.
+trivial.
+Qed.
 (** [] *)
 
 (* ###################################################### *)

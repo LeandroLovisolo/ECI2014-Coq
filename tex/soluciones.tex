@@ -1,10 +1,79 @@
 \documentclass[a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish, es-ucroman, es-noquoting]{babel}
+\usepackage[cm]{fullpage}
+\usepackage{pdflscape}
+\usepackage{bussproofs}
 \usepackage{amsmath}
 
 % Quitar numeración en seccionado
 \setcounter{secnumdepth}{-1}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Macros para árboles de derivación                                         %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newenvironment{tipado}{
+  \begin{scriptsize}
+    \begin{prooftree}
+}{
+    \end{prooftree}
+  \end{scriptsize}
+}
+
+\newcommand{\Type}{\text{Type}}
+\newcommand{\TT}{\text{tt}}
+\newcommand{\Unit}{\text{unit}}
+
+\newcommand{\TLabel}[1]{
+  \RightLabel{\scriptsize\textsc{#1}}
+}
+
+\newcommand{\TApp}[1]{
+  \TLabel{TApp}
+  \BinaryInfC{#1}
+}
+
+\newcommand{\TTypeApp}[1]{
+  \TLabel{TTypeApp}
+  \BinaryInfC{#1}
+}
+
+\newcommand{\TAbs}[1]{
+  \TLabel{TAbs}
+  \UnaryInfC{#1}
+}
+
+\newcommand{\TTypeAbs}[1]{
+  \TLabel{TTypeAbs}
+  \UnaryInfC{#1}
+}
+
+\newcommand{\TVar}[1]{
+  \AxiomC{}
+  \TLabel{TVar}
+  \UnaryInfC{#1}
+}
+
+\newcommand{\TttUnit}{
+  \AxiomC{}
+  \TLabel{TttUnit}
+  \UnaryInfC{$\vdash \TT : \Unit$}
+}
+
+\newcommand{\TTypeUnit}{
+  \AxiomC{}
+  \TLabel{TTypeUnit}
+  \UnaryInfC{$\vdash \Unit : \Type$}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Título                                                                    %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \begin{document}
 
@@ -16,7 +85,14 @@
 \date{Agosto 2014}
 \maketitle
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Enunciado                                                                 %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \section{Enunciado}
+
 Demuestre (mediante un árbol de derivación) cuáles de los siguientes términos están bien tipados y qué tipo tienen (o justifique por qué no lo están.) Evalúe aquellos términos bien tipados paso a paso.
 
 \begin{enumerate}
@@ -25,12 +101,14 @@ Demuestre (mediante un árbol de derivación) cuáles de los siguientes término
         \lambda y : \text{unit}\ .\
         y)\
        \text{tt}\ \text{unit}\ \text{tt}$
+
 \item $(\lambda \alpha : \text{Type}\ .\
         \lambda x : \alpha\ .\
         \lambda \beta : \text{Type}\ .\
         \lambda y : \beta\ .\
         y)\
        \text{unit}\ \text{tt}\ \text{unit}\ \text{tt}$
+       
 \item $(\lambda x : \text{unit}\ .\
         \lambda \alpha : \text{Type}\ .\
         \lambda y : \alpha\ .\
@@ -40,7 +118,24 @@ Demuestre (mediante un árbol de derivación) cuáles de los siguientes término
         z)$
 \end{enumerate}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Soluciones                                                                %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{landscape}
+
+
+\newpage
+
 \section{Soluciones}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Ejercicio 1                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \subsection{Ejercicio 1}
 
@@ -52,6 +147,14 @@ $(\lambda \alpha : \text{Type}\ .\
 
 Pendiente.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Ejercicio 2                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newpage
+
 \subsection{Ejercicio 2}
 
 $(\lambda \alpha : \text{Type}\ .\
@@ -59,9 +162,113 @@ $(\lambda \alpha : \text{Type}\ .\
   \lambda \beta : \text{Type}\ .\
   \lambda y : \beta\ .\
   y)\
- \text{unit}\ \text{tt}\ \text{unit}\ \text{tt}$\\
+ \text{unit}\ \text{tt}\ \text{unit}\ \text{tt}$
 
-Pendiente.
+
+\subsubsection{Tipado}
+
+\begin{tipado}
+    \TttUnit
+      \TTypeUnit
+        \TttUnit
+          \TTypeUnit
+                  \TVar{
+                    $\alpha : \Type,\ x : \alpha,\ \beta : \Type,\ y : \beta
+                     \vdash
+                     y
+                     :
+                     \beta$
+                  }
+                \TAbs{
+                  $\alpha : \Type,\ x : \alpha,\ \beta : \Type
+                   \vdash
+                   (\lambda y : \beta\ .\
+                    y)
+                   :
+                   \beta \rightarrow \beta$
+                }
+              \TTypeAbs{
+                $\alpha : \Type,\ x : \alpha
+                 \vdash
+                 (\lambda \beta : \Type\ .\
+                  \lambda y : \beta\ .\
+                  y)
+                 :
+                 (\forall c : \Type,\ c \rightarrow c)$
+              }
+            \TAbs{
+              $\alpha : \Type
+               \vdash
+               (\lambda x : \alpha\ .\
+                \lambda \beta : \Type\ .\
+                \lambda y : \beta\ .\
+                y)
+               :
+               \alpha \rightarrow (\forall c : \Type,\ c \rightarrow c)$
+            }
+          \TTypeAbs{
+            $\vdash
+             (\lambda \alpha : \Type\ .\
+              \lambda x : \alpha\ .\
+              \lambda \beta : \Type\ .\
+              \lambda y : \beta\ .\
+              y)
+             :
+             (\forall d : \Type,\ d \rightarrow (\forall c : \Type,\ c \rightarrow c))$
+          }
+        \TTypeApp{
+          $\vdash
+           (\lambda \alpha : \Type\ .\
+            \lambda x : \alpha\ .\
+            \lambda \beta : \Type\ .\
+            \lambda y : \beta\ .\
+            y)\
+           \Unit
+           :
+           \Unit \rightarrow (\forall c : \Type,\ c \rightarrow c)$
+        }
+      \TApp{
+        $\vdash
+         (\lambda \alpha : \Type\ .\
+          \lambda x : \alpha\ .\
+          \lambda \beta : \Type\ .\
+          \lambda y : \beta\ .\
+          y)\
+         \Unit\ \TT
+         :
+         (\forall c : \Type,\ c \rightarrow c)$
+      }
+    \TTypeApp{
+      $\vdash
+       (\lambda \alpha : \Type\ .\
+        \lambda x : \alpha\ .\
+        \lambda \beta : \Type\ .\
+        \lambda y : \beta\ .\
+        y)\
+       \Unit\ \TT\ \Unit
+       :
+       \Unit \rightarrow \Unit$
+    }
+  \TApp{
+    $\vdash
+     (\lambda \alpha : \Type\ .\
+      \lambda x : \alpha\ .\
+      \lambda \beta : \Type\ .\
+      \lambda y : \beta\ .\
+      y)\
+     \Unit\ \TT\ \Unit\ \TT
+     :
+     \Unit$
+  }
+\end{tipado}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Ejercicio 3                                                               %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newpage
 
 \subsection{Ejercicio 3}
 
@@ -74,5 +281,8 @@ $(\lambda x : \text{unit}\ .\
   z)$\\
 
 Pendiente.
+
+
+\end{landscape}
 
 \end{document}

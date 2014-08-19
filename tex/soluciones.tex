@@ -121,8 +121,7 @@ Demuestre (mediante un árbol de derivación) cuáles de los siguientes término
         \lambda y : \alpha\ .\
         x)\
        \TT\ (\Unit \rightarrow \Unit)\
-       (\lambda z : \Unit\ .\
-        z)$
+       (\lambda z : \Unit\ .\ z)$
 \end{enumerate}
 
 
@@ -296,7 +295,7 @@ $\leadsto
   y)\
  \TT$ \\
 $\leadsto
- \TT$ \\
+ \TT$
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -308,14 +307,12 @@ $\leadsto
 
 \subsection{Ejercicio 3}
 
-
 $(\lambda x : \Unit\ .\
   \lambda \alpha : \Type\ .\
   \lambda y : \alpha\ .\
   x)\
  \TT\ (\Unit \rightarrow \Unit)\
- (\lambda z : \Unit\ .\
-  z)$ \\
+ (\lambda z : \Unit\ .\ z)$ \\
 
 
 \subsubsection{Tipado}
@@ -395,6 +392,30 @@ $(\lambda x : \Unit\ .\
      $
   }
 \end{tipado}
+
+
+\subsubsection{Evaluado}
+
+\noindent
+$\phantom{\leadsto}\
+ (\lambda x : \Unit\ .\
+  \lambda \alpha : \Type\ .\
+  \lambda y : \alpha\ .\
+  x)\
+ \TT\ (\Unit \rightarrow \Unit)\
+ (\lambda z : \Unit\ .\ z)$ \\
+$\leadsto
+ (\lambda \alpha : \Type\ .\
+  \lambda y : \alpha\ .\
+  \TT)\
+ (\Unit \rightarrow \Unit)\
+ (\lambda z : \Unit\ .\ z)$ \\
+$\leadsto
+ (\lambda y : (\Unit \rightarrow \Unit)\ .\
+  \TT)\
+ (\lambda z : \Unit\ .\ z)$ \\
+$\leadsto
+ \TT$
 
 
 \end{landscape}

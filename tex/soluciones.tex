@@ -58,21 +58,21 @@
   \UnaryInfC{#1}
 }
 
-\newcommand{\TttUnit}{
+\newcommand{\TUnitInstance}{
   \AxiomC{}
-  \TLabel{TttUnit}
+  \TLabel{TUnitInstance}
   \UnaryInfC{$\vdash \TT : \Unit$}
 }
 
-\newcommand{\TTypeUnit}{
+\newcommand{\TUnit}{
   \AxiomC{}
-  \TLabel{TTypeUnit}
+  \TLabel{TUnit}
   \UnaryInfC{$\vdash \Unit : \Type$}
 }
 
 \newcommand{\TTypeArr}{
-    \TTypeUnit
-    \TTypeUnit
+    \TUnit
+    \TUnit
   \TLabel{TTypeArr}
   \BinaryInfC{$\vdash (\Unit \rightarrow \Unit) : \Type$}
 }
@@ -151,7 +151,7 @@ $(\lambda \alpha : \Type\ .\
   y)\
  \TT\ \Unit\ \TT$ \\
 
-Pendiente.
+El término no está bien tipado. Notar que el primer lambda espera un tipo (variable $\alpha$), sin embargo recibe una instancia de un tipo (valor \TT).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -174,10 +174,10 @@ $(\lambda \alpha : \Type\ .\
 \subsubsection{Tipado}
 
 \begin{tipado}
-    \TttUnit
-      \TTypeUnit
-        \TttUnit
-          \TTypeUnit
+    \TUnitInstance
+      \TUnit
+        \TUnitInstance
+          \TUnit
                   \TVar{
                     $\alpha : \Type,\ x : \alpha,\ \beta : \Type,\ y : \beta
                      \vdash
@@ -323,7 +323,7 @@ $(\lambda x : \Unit\ .\
       $\vdash (\lambda z : \Unit\ .\ z) : \Unit \rightarrow \Unit$
     }
       \TTypeArr
-        \TttUnit
+        \TUnitInstance
               \TVar{
                 $x : \Unit, \alpha : \Type, y : \alpha
                  \vdash

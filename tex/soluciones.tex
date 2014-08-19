@@ -69,6 +69,12 @@
   \UnaryInfC{$\vdash \Unit : \Type$}
 }
 
+\newcommand{\TTypeArr}{
+    \TTypeUnit
+    \TTypeUnit
+  \TLabel{TTypeArr}
+  \BinaryInfC{$\vdash (\Unit \rightarrow \Unit) : \Type$}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Título                                                                    %%
@@ -272,6 +278,7 @@ $(\lambda \alpha : \text{Type}\ .\
 
 \subsection{Ejercicio 3}
 
+
 $(\lambda x : \text{unit}\ .\
   \lambda \alpha : \text{Type}\ .\
   \lambda y : \alpha\ .\
@@ -280,7 +287,84 @@ $(\lambda x : \text{unit}\ .\
  (\lambda z : \text{unit}\ .\
   z)$\\
 
-Pendiente.
+
+\subsubsection{Tipado}
+
+\begin{tipado}
+      \TVar{$z : \Unit \vdash z : \Unit$}
+    \TAbs{
+      $\vdash (\lambda z : \Unit\ .\ z) : \Unit \rightarrow \Unit$
+    }
+      \TTypeArr
+        \TttUnit
+              \TVar{
+                $x : \Unit, \alpha : \Type, y : \alpha
+                 \vdash
+                 x
+                 :
+                 \Unit
+                 $
+              }
+            \TAbs{
+              $x : \Unit, \alpha : \Type
+               \vdash
+               (\lambda y : \alpha\ .\
+                x)
+               :
+               \alpha \rightarrow \Unit
+               $
+            }
+          \TTypeAbs{
+            $x : \Unit
+             \vdash
+             (\lambda \alpha : \Type\ .\
+              \lambda y : \alpha\ .\
+              x)
+             :
+             (\forall c : \Type,\ c) \rightarrow \Unit
+             $
+          }
+        \TAbs{
+          $(\lambda x : \Unit\ .\
+            \lambda \alpha : \Type\ .\
+            \lambda y : \alpha\ .\
+            x)
+           :
+           \Unit \rightarrow (\forall c : \Type,\ c) \rightarrow \Unit
+           $
+        }
+      \TApp{
+        $(\lambda x : \Unit\ .\
+          \lambda \alpha : \Type\ .\
+          \lambda y : \alpha\ .\
+          x)\
+         \TT
+         :
+         (\forall c : \Type,\ c) \rightarrow \Unit
+         $
+      }
+    \TTypeApp{
+      $(\lambda x : \Unit\ .\
+        \lambda \alpha : \Type\ .\
+        \lambda y : \alpha\ .\
+        x)\
+       \TT\ (\Unit \rightarrow \Unit)
+       :
+       (\Unit \rightarrow \Unit) \rightarrow \Unit
+       $
+    }
+  \TApp{
+    $(\lambda x : \Unit\ .\
+      \lambda \alpha : \Type\ .\
+      \lambda y : \alpha\ .\
+      x)\
+     \TT\ (\Unit \rightarrow \Unit)\
+     (\lambda z : \Unit\ .\ z)
+     :
+     \Unit
+     $
+  }
+\end{tipado}
 
 
 \end{landscape}

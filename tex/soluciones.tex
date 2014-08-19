@@ -2,7 +2,6 @@
 \usepackage[utf8]{inputenc}
 \usepackage[spanish, es-ucroman, es-noquoting]{babel}
 \usepackage[cm]{fullpage}
-\usepackage{pdflscape}
 \usepackage{bussproofs}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -17,11 +16,11 @@
 
 
 \newenvironment{tipado}{
-  \begin{scriptsize}
+  \begin{small}
     \begin{prooftree}
 }{
     \end{prooftree}
-  \end{scriptsize}
+  \end{small}
 }
 
 \newcommand{\Type}{\text{Type}}
@@ -29,7 +28,7 @@
 \newcommand{\Unit}{\text{unit}}
 
 \newcommand{\TLabel}[1]{
-  \RightLabel{\scriptsize\textsc{#1}}
+  \RightLabel{\footnotesize\textsc{#1}}
 }
 
 \newcommand{\TApp}[1]{
@@ -58,9 +57,9 @@
   \UnaryInfC{#1}
 }
 
-\newcommand{\TUnitInstance}{
+\newcommand{\TUnitElem}{
   \AxiomC{}
-  \TLabel{TUnitInstance}
+  \TLabel{TUnitElem}
   \UnaryInfC{$\vdash \TT : \Unit$}
 }
 
@@ -130,11 +129,6 @@ Demuestre (mediante un árbol de derivación) cuáles de los siguientes término
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\begin{landscape}
-
-
-\newpage
-
 \section{Soluciones}
 
 
@@ -159,8 +153,6 @@ El término no está bien tipado. Notar que el primer lambda espera un tipo (var
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\newpage
-
 \subsection{Ejercicio 2}
 
 $(\lambda \alpha : \Type\ .\
@@ -174,76 +166,88 @@ $(\lambda \alpha : \Type\ .\
 \subsubsection{Tipado}
 
 \begin{tipado}
-    \TUnitInstance
-      \TUnit
-        \TUnitInstance
-          \TUnit
-                  \TVar{
-                    $\alpha : \Type,\ x : \alpha,\ \beta : \Type,\ y : \beta
-                     \vdash
-                     y
-                     :
-                     \beta$
-                  }
-                \TAbs{
-                  $\alpha : \Type,\ x : \alpha,\ \beta : \Type
-                   \vdash
-                   (\lambda y : \beta\ .\
-                    y)
-                   :
-                   \beta \rightarrow \beta$
-                }
-              \TTypeAbs{
-                $\alpha : \Type,\ x : \alpha
-                 \vdash
-                 (\lambda \beta : \Type\ .\
-                  \lambda y : \beta\ .\
-                  y)
-                 :
-                 (\forall c : \Type,\ c \rightarrow c)$
-              }
-            \TAbs{
-              $\alpha : \Type
-               \vdash
-               (\lambda x : \alpha\ .\
-                \lambda \beta : \Type\ .\
-                \lambda y : \beta\ .\
-                y)
-               :
-               \alpha \rightarrow (\forall c : \Type,\ c \rightarrow c)$
-            }
-          \TTypeAbs{
-            $\vdash
-             (\lambda \alpha : \Type\ .\
-              \lambda x : \alpha\ .\
-              \lambda \beta : \Type\ .\
-              \lambda y : \beta\ .\
-              y)
+          \TVar{
+            $\alpha : \Type,\ x : \alpha,\ \beta : \Type,\ y : \beta
+             \vdash
+             y
              :
-             (\forall d : \Type,\ d \rightarrow (\forall c : \Type,\ c \rightarrow c))$
+             \beta$
           }
-        \TTypeApp{
-          $\vdash
-           (\lambda \alpha : \Type\ .\
-            \lambda x : \alpha\ .\
-            \lambda \beta : \Type\ .\
-            \lambda y : \beta\ .\
-            y)\
-           \Unit
+        \TAbs{
+          $\alpha : \Type,\ x : \alpha,\ \beta : \Type
+           \vdash
+           (\lambda y : \beta\ .\
+            y)
            :
-           \Unit \rightarrow (\forall c : \Type,\ c \rightarrow c)$
+           \beta \rightarrow \beta$
         }
-      \TApp{
-        $\vdash
-         (\lambda \alpha : \Type\ .\
-          \lambda x : \alpha\ .\
-          \lambda \beta : \Type\ .\
+      \TTypeAbs{
+        $\alpha : \Type,\ x : \alpha
+         \vdash
+         (\lambda \beta : \Type\ .\
           \lambda y : \beta\ .\
-          y)\
-         \Unit\ \TT
+          y)
          :
          (\forall c : \Type,\ c \rightarrow c)$
       }
+    \TAbs{
+      $\alpha : \Type
+       \vdash
+       (\lambda x : \alpha\ .\
+        \lambda \beta : \Type\ .\
+        \lambda y : \beta\ .\
+        y)
+       :
+       \alpha \rightarrow (\forall c : \Type,\ c \rightarrow c)$
+    }
+  \TTypeAbs{
+    $\mbox{\normalsize $\circ$}
+     \hspace{1em} 
+     \vdash
+     (\lambda \alpha : \Type\ .\
+      \lambda x : \alpha\ .\
+      \lambda \beta : \Type\ .\
+      \lambda y : \beta\ .\
+      y)
+     :
+     (\forall d : \Type,\ d \rightarrow (\forall c : \Type,\ c \rightarrow c))$
+  }
+\end{tipado}
+
+\begin{tipado}
+    \TUnitElem
+      \TUnit
+      \AxiomC{\mbox{\normalsize $\circ$}}
+    \TTypeApp{
+      $\vdash
+       (\lambda \alpha : \Type\ .\
+        \lambda x : \alpha\ .\
+        \lambda \beta : \Type\ .\
+        \lambda y : \beta\ .\
+        y)\
+       \Unit
+       :
+       \Unit \rightarrow (\forall c : \Type,\ c \rightarrow c)$
+    }
+  \TApp{
+    $\mbox{\normalsize $\star$}
+     \hspace{1em} 
+     \vdash
+     (\lambda \alpha : \Type\ .\
+      \lambda x : \alpha\ .\
+      \lambda \beta : \Type\ .\
+      \lambda y : \beta\ .\
+      y)\
+     \Unit\ \TT
+     :
+     (\forall c : \Type,\ c \rightarrow c)$
+  }
+\end{tipado}
+
+\begin{tipado}
+    \TUnitElem
+      \TUnit
+      \AxiomC{\mbox{\normalsize $\star$}}
     \TTypeApp{
       $\vdash
        (\lambda \alpha : \Type\ .\
@@ -303,8 +307,6 @@ $\leadsto
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\newpage
-
 \subsection{Ejercicio 3}
 
 $(\lambda x : \Unit\ .\
@@ -317,59 +319,66 @@ $(\lambda x : \Unit\ .\
 
 \subsubsection{Tipado}
 
+
+\begin{tipado}
+    \TUnitElem
+          \TVar{
+            $x : \Unit, \alpha : \Type, y : \alpha
+             \vdash
+             x
+             :
+             \Unit
+             $
+          }
+        \TAbs{
+          $x : \Unit, \alpha : \Type
+           \vdash
+           (\lambda y : \alpha\ .\
+            x)
+           :
+           \alpha \rightarrow \Unit
+           $
+        }
+      \TTypeAbs{
+        $x : \Unit
+         \vdash
+         (\lambda \alpha : \Type\ .\
+          \lambda y : \alpha\ .\
+          x)
+         :
+         (\forall c : \Type,\ c) \rightarrow \Unit
+         $
+      }
+    \TAbs{
+      $(\lambda x : \Unit\ .\
+        \lambda \alpha : \Type\ .\
+        \lambda y : \alpha\ .\
+        x)
+       :
+       \Unit \rightarrow (\forall c : \Type,\ c) \rightarrow \Unit
+       $
+    }
+  \TApp{
+    $\mbox{\normalsize $\star$}
+     \hspace{1em} 
+     (\lambda x : \Unit\ .\
+      \lambda \alpha : \Type\ .\
+      \lambda y : \alpha\ .\
+      x)\
+     \TT
+     :
+     (\forall c : \Type,\ c) \rightarrow \Unit
+     $
+  }
+\end{tipado}
+
 \begin{tipado}
       \TVar{$z : \Unit \vdash z : \Unit$}
     \TAbs{
       $\vdash (\lambda z : \Unit\ .\ z) : \Unit \rightarrow \Unit$
     }
       \TTypeArr
-        \TUnitInstance
-              \TVar{
-                $x : \Unit, \alpha : \Type, y : \alpha
-                 \vdash
-                 x
-                 :
-                 \Unit
-                 $
-              }
-            \TAbs{
-              $x : \Unit, \alpha : \Type
-               \vdash
-               (\lambda y : \alpha\ .\
-                x)
-               :
-               \alpha \rightarrow \Unit
-               $
-            }
-          \TTypeAbs{
-            $x : \Unit
-             \vdash
-             (\lambda \alpha : \Type\ .\
-              \lambda y : \alpha\ .\
-              x)
-             :
-             (\forall c : \Type,\ c) \rightarrow \Unit
-             $
-          }
-        \TAbs{
-          $(\lambda x : \Unit\ .\
-            \lambda \alpha : \Type\ .\
-            \lambda y : \alpha\ .\
-            x)
-           :
-           \Unit \rightarrow (\forall c : \Type,\ c) \rightarrow \Unit
-           $
-        }
-      \TApp{
-        $(\lambda x : \Unit\ .\
-          \lambda \alpha : \Type\ .\
-          \lambda y : \alpha\ .\
-          x)\
-         \TT
-         :
-         (\forall c : \Type,\ c) \rightarrow \Unit
-         $
-      }
+      \AxiomC{\mbox{\normalsize $\star$}}
     \TTypeApp{
       $(\lambda x : \Unit\ .\
         \lambda \alpha : \Type\ .\
@@ -417,7 +426,5 @@ $\leadsto
 $\leadsto
  \TT$
 
-
-\end{landscape}
 
 \end{document}

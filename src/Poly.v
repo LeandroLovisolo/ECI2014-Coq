@@ -504,8 +504,7 @@ Fixpoint split
 
 Example test_split:
   split [(1,false);(2,false)] = ([1;2],[false;false]).
-Proof.
-  l
+Proof. trivial.
 Qed.
 
 (** [] *)

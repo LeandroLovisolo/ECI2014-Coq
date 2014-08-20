@@ -755,16 +755,28 @@ reflexivity.
 Qed.
 
 
+Theorem rev_snoc :   forall v : nat,
+                     forall s : natlist,
+  rev (snoc s v) = v :: (rev s).
+Proof.
+  intros v s.
+  induction s as [| v' s'].
+    Case "s = []". reflexivity.
+    Case "s = v' :: s'". simpl. rewrite -> IHs'. reflexivity.
+Qed.
 
 Theorem rev_involutive : forall l : natlist,
   rev (rev l) = l.
 Proof.
-intros l.
-induction l as [| h t].
-trivial.
-compute.
-simpl.
-Admitted.
+  intros l.
+  induction l as [| v l'].
+  Case "l = []". trivial.
+  Case "l = v :: l'".
+    simpl.
+    rewrite -> rev_snoc.
+    rewrite -> IHl'.
+    reflexivity.
+Qed.
 
 
 
@@ -812,7 +824,12 @@ rewrite app_nil_end.
 simpl.
 reflexivity.
 simpl.
+rewrite snoc_append.
+
 rewrite IHt.
+rewrite app_ass.
+assert (rev t ++ [h] = snoc (rev t) h).
+
 Admitted.
 
 (** An exercise about your implementation of [nonzeros]: *)
